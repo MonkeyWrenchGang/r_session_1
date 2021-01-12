@@ -1,0 +1,230 @@
+---
+title: "Session 1 - Practice 2"
+author: "Your Name Here | and your email address"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+---
+
+# Session 1 Practice 2
+
+## Overview 
+You are a newly hired data scientist working for a telecommunication company like Verizon or ATT. You have been tasked to identify which customers are likely to "churn". Customer churn, also known as customer attrition, occurs when customers stop doing business with a company or stop using a company’s services. 
+
+## Libraries & Packages 
+
+you'll note i use the term package and library interchangeably, these are simply collections of functions with a specific purpose. For this notebook we'll want to load these three:
+
+1. tidyverse: this is our main package it contains several other packages like dplry,readr, andggplot that we'll be using
+2. skimr: skim provides a nice summary of a dataset 
+3. janitor: has a function "clean_names()" that will clean up column names 
+
+To load these libraries, so that the functions are available to use, we need to copy the text into the code block below and run it! 
+
+library(tidyverse)  
+library(skimr)  
+library(janitor)  
+
+
+```{r}
+
+```
+
+## Load Dataset 
+
+churn.csv is a file that contais our churn data. We'll use "head()" to print out the first 10 records so we can eyeball it
+
+churn <- read_csv("data/churn.csv") 
+
+head(churn,10)
+
+```{r}
+
+
+
+```
+
+### Count rows and columns with nrow and ncol 
+
+the following functions will count the number of rows and columns in the dataset 
+
+- nrow() - number of rows  
+- ncol() - number of columns  
+- summary() - summarize the dataset, notice the differences between character and numeric variables. 
+
+nrow(churn)  
+ncol(churn)  
+summary(churn)
+
+```{r}
+
+```
+
+
+### Varible Names
+
+suppose we want to count the numbe of records by Area Code? how can we do this if the variable name has a space in it? to do this we need to quote the variable with back-ticks like this  `Area Code` copy the code below and run it, pick another variable like `VMail Plan` and count that too. isn't it a pain to deal with variables with spaces in the name? 
+
+count(churn, `Area Code`)
+
+```{r}
+
+```
+
+## Clean up Column names 
+
+The janitor package provides a neat function clean_names() which will convert spaces to underscores, lowercase everything, deal with special characters like quotes, hypyens, and others. to do this we'll need to "pipe" the results of churn into a function called clean_names() and overwrite out original dataset. the following code will do this for you. note the use of %>% this the pipe operator, essentially what this says is stream every record from churn into the clean_names() function the assignmnet operator <- will overwrite the churn dataset. copy and run this code below
+
+churn_clean <- churn %>%  
+  clean_names()  
+
+head(churn_clean,10)  
+
+for completeness also update the churn dataset 
+
+churn <- churn %>%  
+  clean_names()  
+
+head(churn,10)  
+
+```{r}
+
+```
+
+
+## Use skim() function 
+
+The core function of skimr is skim(), which is designed to work with (grouped) data frames, and will try coerce other objects to data frames if possible. Like summary(), skim()’s method for data frames presents results for every column; the statistics it provides depend on the class of the variable.
+
+
+churn %>%  
+  skim()  
+
+```{r}
+
+```
+
+
+## Skim group_by churn 
+
+"group by()" works just like it's name stages, it simply groups things so that they can be analyzed independantly
+
+
+churn %>%  
+  group_by(churn) %>%  
+  skim()  
+
+```{r}
+
+```
+
+## Summarize churn column 
+
+how many accounts are churners? notice n() performs a count 
+
+churn %>%  
+  group_by(churn) %>%  
+  summarize(n = n())  
+
+```{r}
+
+```
+
+### Can i get that in Percentage 
+
+What is the % of churner non-churner? 
+
+we use mutate() to add varaibles from formulae in this case our count variable divided by the sum of our count. 
+
+churn %>%  
+  group_by(churn) %>%  
+  summarize(n = n()) %>%  
+  mutate(pct = n/sum(n)  )  
+
+```{r}
+
+
+```
+
+
+## Make a Histogram of day_calls
+
+using hist - ok this isn't particulary attractive graph, this is the old way to graph in R  
+
+here is the code 
+hist(churn$day_calls)  
+
+```{r}
+
+```
+
+### Lets make a better looking chart 
+
+ggplot makes modern plots and graphs instead of the base graph packages which look like the 1980s  
+
+lets use ggplot and geom_histogram to make a histogram of day_calls 
+
+ggplot(churn, aes(x=day_calls)) +
+  geom_histogram( stat="count")
+
+```{r}
+
+```
+
+## Add a title 
+
+we need to tell people what our chart is all about 
+
+ggplot(churn, aes(x=day_calls)) +  
+  geom_histogram( stat="count") +   
+  ggtitle("Histogram of Day Mins")  
+
+```{r}
+
+
+
+```
+
+## Add a Fill Aestetic 
+
+Fills color our graphs 
+
+ggplot(churn, aes(x=day_calls, fill=churn)) +   
+  geom_histogram( stat="count") +   
+  ggtitle("Histogram of Day Mins")  
+
+```{r}
+
+
+
+```
+
+## Fact Wrap by intl_plan
+
+facet wrap makes the same graph for each level in the facet, you do this with the function face_wrap() and reference the column with a sqiggly ~ column name 
+
+sample code :  
+
+ggplot(churn, aes(x=day_calls, fill=churn)) +  
+  geom_histogram( stat="count") +   
+  ggtitle("Histogram of Day Mins") +  
+  facet_wrap(~intl_plan)  
+
+```{r}
+
+```
+
+## Now you Try 
+
+see if you can do the following, simply insert a new code block and try these. 
+
+1. group_by state, and churn, create counts 
+2. make a histogram of day_charge using hist
+3. make a histogream of day_charge using ggplot 
+4. craete a new table called "area_code_counts" by grouping by area_code and counting n() 
+
+```{r}
+
+```
+
