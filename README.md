@@ -9,7 +9,11 @@ Launch the notebook, once in select RStudio [![Binder](https://mybinder.org/badg
 
 ## RStudio
 
-Once inside RStudio pull up the two notebooks and follow the instructions 
+While you can use R in a Jupyter notebook, this is meant to be an RStudio session. In the Jupyter dashboard click on "New" > "RStudio Session". Once inside RStudio pull up the two notebooks (.Rmd) and follow the instructions 
+
+
+
+
 
 
 
