@@ -4,7 +4,7 @@ This is a repository for the first session of BAN7002, designed to help get stud
 
 ## Launch 
 
-Launch the notebook, once in select RStudio [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/MonkeyWrenchGang/r_session_1/HEAD)
+Launch the notebook, once in jupyter select New > RStudio [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/MonkeyWrenchGang/r_session_1/HEAD)
 
 
 ## RStudio
